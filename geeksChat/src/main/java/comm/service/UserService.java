@@ -36,7 +36,7 @@ public class UserService {
     }
 
 
-    public User loginUser(String username, String password) {
+    public User loginUser(String username, String password) {//method to log in after registering
         User user = loginRepo.findByUserName(username, User.class);
         if (user != null) {
             if (passwordEncoder.matches(password, user.getPassword()))
@@ -47,9 +47,9 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepo.findAll();
-    }
+    }//retrieve all users
 
-    public User getUserById(Long userId) {
+    public User getUserById(Long userId) {// this method retrieves a user based on userID
         Optional<User> optionalUser = userRepo.findById(userId);
         return optionalUser.orElse(null);
     }
@@ -60,17 +60,19 @@ public class UserService {
         return userRepo.findByUserNameContainingIgnoreCase(query);
     }
 
-    public void addContact(Long UserID, Long contactUserID) {
-        User user = (User) userRepo.findAllByUserId(UserID).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        User contactUser = (User) userRepo.findAllByUserId(contactUserID).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    public void addContact(Long UserID, Long contactUserID) {// This method  add a contact for a given user
+        User user = (User) userRepo.findAllByUserId(UserID)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));//retrieving a user with a given userID from userRepo
+        User contactUser = (User) userRepo.findAllByUserId(contactUserID)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));////retrieving a user with a given contactuserID from userRepo
 
-        if (contactRepo.existsByUserIDAndContactUserID(user, contactUser)) {
+        if (contactRepo.existsByUserIDAndContactUserID(user, contactUser)) {//checking if there's a relationship between the user and contactUser
             throw new RuntimeException("Contact already exists");
         }else {
-            System.out.println("Checking something");
+            System.out.println("Checking something");//used for checking if my code reaches here
         }
         System.out.println("adding");
-        // Create and save the contact relationship
+        // Creating  and saving  the contact to a user
         Contact newContact = new Contact();
         newContact.setUserID(user);
         newContact.setContactUserID(contactUser);

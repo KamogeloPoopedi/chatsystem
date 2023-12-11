@@ -37,12 +37,12 @@ public class userController {
 
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all")//this method retrieves all users
     public List<User> getAllUsers() {
         return userService.findAll();
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{userId}")//this method retrieves a user using userId
     public ResponseEntity<Object> getUserByID(@PathVariable Long userId) {
         User user = userService.getUserById(userId);
         if (user != null) {
@@ -52,6 +52,7 @@ public class userController {
         }
     }
 
+    //handles the post request to register a user to the system
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
         if (!userRepo.existsByUserName(registerDto.getUserName())) {
@@ -69,6 +70,7 @@ public class userController {
         }
     }
 
+    // handles the post request to log in the system
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
         User user = userService.loginUser(loginDto.getUserName(), loginDto.getPassword());
@@ -77,12 +79,15 @@ public class userController {
         }
         return new ResponseEntity<>("login successful", HttpStatus.OK);
     }
+
+    //method to handle a get request to search user
     @GetMapping("/search")
     public ResponseEntity<List<User>> searchUsers(@RequestParam String query) {
         List<User> users = userService.searchUsers(query);
         return ResponseEntity.ok(users);
     }
 
+    // method for handling post request to  add  a user as contact
     @PostMapping("/{userId}/add/{contactId}")
     public ResponseEntity<String> addContact(@PathVariable Long userId, @PathVariable Long contactId) {
         System.out.println(userId +" " + contactId);
