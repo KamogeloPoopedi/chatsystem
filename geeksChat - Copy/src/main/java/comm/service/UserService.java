@@ -45,7 +45,7 @@ public class UserService {
         return null; // Login failed
     }
 
-    public List<User> getAllUsers() {
+    public List<User> findAll() {
         return userRepo.findAll();
     }//retrieve all users
 
@@ -79,7 +79,6 @@ public class UserService {
 //
         contactRepo.save(newContact);
     }
-
 
 }
 

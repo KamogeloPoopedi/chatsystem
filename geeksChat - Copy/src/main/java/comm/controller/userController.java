@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -40,13 +39,14 @@ public class userController {
 
     @GetMapping("/all")//this method retrieves all users
     public List<User> getAllUsers() {
-        return userService.getAllUsers();
+        return userService.findAll();
     }
+
     @GetMapping("/{userId}")//this method retrieves a user using userId
     public ResponseEntity<Object> getUserByID(@PathVariable Long userId) {
         User user = userService.getUserById(userId);
         if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("User " + userId + " doesn't exist", HttpStatus.BAD_REQUEST);
         }
@@ -70,7 +70,7 @@ public class userController {
         }
     }
 
-    // handles the post request to log in the user
+    // handles the post request to log in the system
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
         User user = userService.loginUser(loginDto.getUserName(), loginDto.getPassword());
@@ -85,8 +85,6 @@ public class userController {
     public ResponseEntity<List<User>> searchUsers(@RequestParam String query) {
         List<User> users = userService.searchUsers(query);
         return ResponseEntity.ok(users);
-
-
     }
 
     // method for handling post request to  add  a user as contact
