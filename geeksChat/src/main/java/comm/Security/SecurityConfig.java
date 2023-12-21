@@ -17,14 +17,28 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception{
-        http  .cors().disable()
+        http
+                .cors().disable()
                 .csrf().disable()
                 .formLogin().disable()
-                .securityMatcher("/api/**")
-                .authorizeHttpRequests(c -> c.requestMatchers("/api/**").permitAll())
+                .authorizeRequests()
+                .requestMatchers("/api/users/search").authenticated() // Require authentication for /api/users/search
+                .requestMatchers(HttpMethod.POST, "/api/users/*/add/*").authenticated() // Require authentication for POST /api/users/*/add/*
+                .anyRequest().permitAll() // Allow all other requests
+                .and()
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic().disable();
         return http.build();
+
+
+//                .cors().disable()
+//                .csrf().disable()
+//                .formLogin().disable()
+//                .securityMatcher("/api/**")
+//                .authorizeHttpRequests(c -> c.requestMatchers("/api/**").permitAll())
+//                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .httpBasic().disable();
+//        return http.build();
 }
 @Bean
 public PasswordEncoder passwordEncoder(){
