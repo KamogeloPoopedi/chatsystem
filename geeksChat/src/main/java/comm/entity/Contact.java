@@ -26,5 +26,6 @@ public class Contact {
     @JoinColumn(name = "contactuserid")
     private User contactUserID;
 
+
 }
 
