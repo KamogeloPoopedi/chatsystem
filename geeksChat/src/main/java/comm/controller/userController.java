@@ -90,10 +90,10 @@ public class userController {
     }
 
     // method for handling post request to  add  a user as contact
-    @PostMapping("/{userId}/add/{contactId}")
-    public ResponseEntity<String> addContact(@PathVariable Long userId, @PathVariable Long contactId) {
-        System.out.println(userId +" " + contactId);
-        userService.addContact(userId, contactId);
-        return ResponseEntity.ok("Contact added successfully");
-    }
+//    @PostMapping("/{userId}/add/{contactId}")
+//    public ResponseEntity<String> addContact(@PathVariable Long userId, @PathVariable Long contactId) {
+//        System.out.println(userId +" " + contactId);
+//        userService.addContact(userId, contactId);
+//        return ResponseEntity.ok("Contact added successfully");
+//    }
 }

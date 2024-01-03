@@ -13,4 +13,6 @@ public interface ContactRepo extends JpaRepository<Contact, Long> {
     // a userID and another user as contactUserid
     boolean existsByUserIDAndContactUserID(User user, User contactUser);
     List<Contact> findByUserID(User user);
+
+
 }

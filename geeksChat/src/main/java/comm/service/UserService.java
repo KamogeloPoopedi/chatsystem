@@ -8,8 +8,10 @@ import comm.repository.LoginRepo;
 import comm.repository.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,14 +38,29 @@ public class UserService {
     }
 
 
-    public User loginUser(String username, String password) {//method to log in after registering
-        User user = loginRepo.findByUserName(username, User.class);
-        if (user != null) {
-            if (passwordEncoder.matches(password, user.getPassword()))
+//    public User loginUser(String username, String password) {//method to log in after registering
+//        User user = loginRepo.findByUserName(username, User.class);
+//        if (user != null) {
+//            if (passwordEncoder.matches(password, user.getPassword()))
+//                return user; // Successful login
+//        }
+//        return null; // Login failed
+//    }
+public User loginUser(String username, String password) {
+    List<User> userList = loginRepo.findByUserName(username, User.class);
+
+    if (userList != null && !userList.isEmpty()) {
+        // Check each user to find the one with matching password
+        for (User user : userList) {
+            if (passwordEncoder.matches(password, user.getPassword())) {
                 return user; // Successful login
+            }
         }
-        return null; // Login failed
     }
+
+    return null; // Login failed
+}
+
 
     public List<User> getAllUsers() {
         return userRepo.findAll();
@@ -79,7 +96,6 @@ public class UserService {
 //
         contactRepo.save(newContact);
     }
-
 
 }
 
