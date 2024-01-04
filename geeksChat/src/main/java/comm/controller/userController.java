@@ -72,12 +72,12 @@ public class userController {
 
     // handles the post request to log in the user
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
         User user = userService.loginUser(loginDto.getUserName(), loginDto.getPassword());
         if (user == null) {
             return new ResponseEntity<>("login unsuccessful", HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>("login successful", HttpStatus.OK);
+        return new ResponseEntity<>(user.getUserId(), HttpStatus.OK);
     }
 
     //method to handle a get request to search user
