@@ -77,7 +77,7 @@ public class userController {
         if (user == null) {
             return new ResponseEntity<>("login unsuccessful", HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(user.getUserId(), HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     //method to handle a get request to search user

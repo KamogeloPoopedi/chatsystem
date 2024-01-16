@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/contacts")
@@ -21,11 +22,11 @@ public class ContactController {
     private ChatService chatService;
     @Autowired
     private UserService userService;
-    @PostMapping("/{userId}/add/{contactId}")
-    public ResponseEntity<String> addContact(@PathVariable Long userId, @PathVariable Long contactId) {
-        System.out.println(userId +" " + contactId);
-        userService.addContact(userId, contactId);
-        return ResponseEntity.ok("Contact added successfully");
+    @PostMapping("/{userId}/add/{contactUserID}")
+    public ResponseEntity<?> addContact(@PathVariable Long userId, @PathVariable Long contactUserID) {
+        System.out.println(userId +" " + contactUserID);
+        userService.addContact(userId, contactUserID);
+        return ResponseEntity.ok(Map.of("message", "Contact added successfully"));
     }
     @GetMapping("/list")
     public ResponseEntity<List<User>> getContactList(@RequestParam Long userId) {

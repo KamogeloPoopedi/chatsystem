@@ -1,6 +1,7 @@
 
 package comm.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
